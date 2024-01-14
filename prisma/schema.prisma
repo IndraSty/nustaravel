@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bookings {
+  id             String           @id @default(cuid())
+  user_id        String?
+  room_id        String?
+  hotel_id       String?
+  booking_date   DateTime?        @default(now())
+  check_in_date  String?          @db.VarChar(255)
+  check_out_date String?          @db.VarChar(255)
+  bookinghistory bookinghistory[]
+  users          users?           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_1")
+  rooms          rooms?           @relation(fields: [room_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_2")
+  hotels         hotels?          @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookings_ibfk_3")
+  invoices       invoices[]
+  payments       payments[]
+
+  @@index([room_id], map: "room_id")
+  @@index([user_id], map: "user_id")
+  @@index([hotel_id], map: "hotel_id")
+}
+
+model hotels {
+  id                String            @id @default(cuid())
+  hotel_name        String?           @db.VarChar(255)
+  hotel_address     String?           @db.VarChar(255)
+  hotel_description String?           @db.Text
+  hotel_rating      Float?            @db.Float
+  city              String            @db.VarChar(255)
+  province          String            @db.VarChar(255)
+  price             Int
+  check_in          String            @db.VarChar(255)
+  check_out         String            @db.VarChar(255)
+  hotelfacilities   hotelfacilities[]
+  reviews           reviews[]
+  rooms             rooms[]
+  bookings          bookings[]
+  hotelimages       hotelimages[]
+}
+
+model invoices {
+  id         String    @id @default(cuid())
+  booking_id String?
+  date       DateTime? @db.DateTime(0)
+  amount     Int?
+  status     String?   @db.VarChar(255)
+  bookings   bookings? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "invoices_ibfk_1")
+
+  @@index([booking_id], map: "booking_id")
+}
+
+model payments {
+  id         String    @id @default(cuid())
+  booking_id String?
+  date       DateTime? @db.DateTime(0)
+  amount     Int?
+  method     String?   @db.VarChar(255)
+  status     String?   @db.VarChar(255)
+  bookings   bookings? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "payments_ibfk_1")
+
+  @@index([booking_id], map: "booking_id")
+}
+
+model rooms {
+  id           String     @id @default(cuid())
+  hotel_id     String?
+  type         String?    @db.VarChar(255)
+  price        Int?
+  availability Int?
+  category     String?    @db.VarChar(255)
+  bookings     bookings[]
+  hotels       hotels?    @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rooms_ibfk_1")
+
+  @@index([hotel_id], map: "hotel_id")
+}
+
+model users {
+  id             String           @id @default(cuid())
+  fullname       String           @db.VarChar(255)
+  email          String           @unique @db.VarChar(255)
+  password       String?          @db.VarChar(255)
+  phone          String?          @db.VarChar(255)
+  token          String?          @db.VarChar(255)
+  image          String?          @db.VarChar(255)
+  created_at     DateTime?        @db.Timestamp(0)
+  update_at      DateTime?        @db.Timestamp(0)
+  bookinghistory bookinghistory[]
+  bookings       bookings[]
+  reviews        reviews[]
+}
+
+model bookinghistory {
+  id         String    @id @default(cuid())
+  user_id    String?
+  booking_id String?
+  date       DateTime? @db.DateTime(0)
+  action     Boolean?
+  users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookinghistory_ibfk_1")
+  bookings   bookings? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookinghistory_ibfk_2")
+
+  @@index([booking_id], map: "booking_id")
+  @@index([user_id], map: "user_id")
+}
+
+model facilities {
+  id              String            @id @default(cuid())
+  name            String?           @db.VarChar(255)
+  icon            String?           @db.VarChar(255)
+  category        String?           @db.VarChar(255)
+  hotelfacilities hotelfacilities[]
+}
+
+model hotelimages {
+  id         String  @id @default(cuid())
+  hotel_id   String?
+  image_path String  @db.VarChar(255)
+  hotels     hotels? @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hotelimages_ibfk_1")
+
+  @@index([hotel_id], map: "hotel_id")
+}
+
+model hotelfacilities {
+  id          String      @id @default(cuid())
+  hotel_id    String?
+  facility_id String?
+  hotels      hotels?     @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hotelfacilities_ibfk_1")
+  facilities  facilities? @relation(fields: [facility_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hotelfacilities_ibfk_2")
+
+  @@index([facility_id], map: "facility_id")
+  @@index([hotel_id], map: "hotel_id")
+}
+
+model reviews {
+  id       String    @id @default(cuid())
+  user_id  String?
+  hotel_id String?
+  date     DateTime? @default(now())
+  rating   Decimal?
+  text     String?   @db.Text
+  users    users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_1")
+  hotels   hotels?   @relation(fields: [hotel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "reviews_ibfk_2")
+
+  @@index([hotel_id], map: "hotel_id")
+  @@index([user_id], map: "user_id")
+}

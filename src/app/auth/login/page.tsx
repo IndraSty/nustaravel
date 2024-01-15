@@ -45,7 +45,7 @@ const LoginPage = () => {
   
   const {url} = useUserSession()
   const handleLoginGoogle = async () => {
-    await signIn("google", { edirect: false });
+    await signIn("google", { redirect: false });
     // if(url === '/auth/phone'){
     //   push('/auth/phone')
     // }

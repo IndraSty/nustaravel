@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
           room_id: room?.id,
           hotel_id: room?.hotel_id,
           user_id: user.id,
+          status: "Waiting for Payment",
           check_in_date: data.checkIn,
           check_out_date: data.checkOut,
         },

@@ -62,7 +62,7 @@ const DetailPesanan = ({
             <h4 className="font-semibold">{customer.status + " " + customer.name}</h4>
             <FaChevronRight className="text-xs" />
           </div>
-          <p className="text-sm">{customer.phone}</p>
+          <p className="text-sm">{phone}</p>
           <p className="text-sm">{email}</p>  
         </button>
       </div>

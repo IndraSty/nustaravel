@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { useUserSession } from "@/features/auth/useUserSession";
 import BotNavbar from "@/components/checkout/BotNavbar";
+import cuid from "cuid";
 
 const CheckoutPage = () => {
   const searchParam = useSearchParams();
@@ -20,8 +21,8 @@ const CheckoutPage = () => {
   const [price, setPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const { email, name, phone } = useUserSession();
-  const [userName, setUserName] = useState("");
-  const [noHp, setNohp] = useState("");
+  const [userName, setUserName] = useState(name);
+  const [noHp, setNohp] = useState(name);
 
   const getRoomById = async () => {
     setIsLoading(true);
@@ -41,25 +42,36 @@ const CheckoutPage = () => {
   // }
 
   const checkout = async () => {
+    const booking = await axios.post(
+      `/api/booking?email=${email}&room_id=${roomId}`,
+      {
+        checkIn,
+        checkOut,
+      }
+    );
     const data = {
-      id: roomId,
+      id: await booking.data.result.id,
       name: room?.type,
       hotel_name: room?.hotels.hotel_name,
       amount: price,
-      quantity: kamar
+      quantity: kamar,
+      first_name: name,
+      email: email,
+      phone: phone
     };
-  
-    try {
-      await axios.post("/api/tokenizer", data);
-    } catch (error) {
-      console.error(error);
-    }
+
+    const response = await axios.post("/api/tokenizer", data);
+
+    window.snap.pay(response.data.token);
   };
 
   useEffect(() => {
-    if (roomId && hotelId) {
-      getRoomById();
+    async function getRoom() {
+      if (roomId && hotelId) {
+        await getRoomById();
+      }
     }
+    getRoom();
   }, [searchParam]);
 
   useEffect(() => {
@@ -86,6 +98,22 @@ const CheckoutPage = () => {
     }
   }, [room, kamar, night]);
 
+  useEffect(() => {
+    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js";
+    const clientKey = process.env.NEXT_PUBLIC_CLIENT;
+    const script = document.createElement("script");
+
+    script.src = snapScript;
+    script.setAttribute("data-client-key", clientKey);
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen w-screen bg-blue-50">
       <Navbar />
@@ -99,9 +127,9 @@ const CheckoutPage = () => {
           checkIn={checkIn}
           checkOut={checkOut}
           email={email}
-          name={userName}
+          name={name}
           night={night}
-          phone={noHp}
+          phone={phone}
         />
       ) : null}
       <BotNavbar price={price} onClick={checkout} />

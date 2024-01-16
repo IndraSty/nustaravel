@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const bookingId = req.nextUrl.searchParams.get("booking_id");
-  const data = req.json();
+  const data = await req.json();
 
   try {
     const booking = await prisma.bookings.findUnique({
@@ -21,12 +21,12 @@ export async function POST(req: NextRequest) {
       });
 
       return NextResponse.json(
-        { message: "Add Booking Success", payment },
+        { message: "Add Payment Success", payment },
         { status: 200 }
       );
     } else {
       return NextResponse.json(
-        { message: "Add Booking Failed" },
+        { message: "Add Payment Failed" },
         { status: 400 }
       );
     }

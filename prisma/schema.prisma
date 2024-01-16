@@ -60,7 +60,7 @@ model invoices {
 model payments {
   id         String    @id @default(cuid())
   booking_id String?
-  date       DateTime? @db.DateTime(0)
+  date       DateTime @default(now())
   amount     Int?
   method     String?   @db.VarChar(255)
   status     String?   @db.VarChar(255)

@@ -49,20 +49,46 @@ const CheckoutPage = () => {
         checkOut,
       }
     );
+
+    const bookingId = await booking.data.result.id;
+    console.log(bookingId);
+
     const data = {
-      id: await booking.data.result.id,
+      id: bookingId,
       name: room?.type,
       hotel_name: room?.hotels.hotel_name,
       amount: price,
       quantity: kamar,
       first_name: name,
       email: email,
-      phone: phone
+      phone: phone,
     };
 
     const response = await axios.post("/api/tokenizer", data);
 
-    window.snap.pay(response.data.token);
+    window.snap.pay(response.data.token, {
+      onPending: async function (result) {
+        const data = {
+          booking_id: bookingId,
+          amount: price,
+          method: "",
+          status: "Unpaid - Pending",
+        };
+
+        await axios.post(`/api/booking/payment?booking_id=${bookingId}`, data);
+      },
+      onClose: async function () {
+        console.log("customer closed the popup without finishing the payment");
+        const data = {
+          booking_id: bookingId,
+          amount: price,
+          method: "",
+          status: "Unpaid - Unfinished Payment",
+        };
+
+        await axios.post(`/api/booking/payment?booking_id=${bookingId}`, data);
+      },
+    });
   };
 
   useEffect(() => {

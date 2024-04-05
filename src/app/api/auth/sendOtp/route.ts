@@ -20,18 +20,3 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "An error occurred" });
     }
   }
-
-// async function name(params:type) {
-  // const readlineE = readline.createInterface({
-  //     input: process.stdin,
-  //     output: process.stdout,
-  //   });
-
-  //   readlineE.question("Please enter the OTP:", async (otpCode) => {
-  //     const verification_check = await client.verify.v2
-  //       .services(verifySid)
-  //       .verificationChecks.create({ to: "+6281298874341", code: otpCode });
-  //     console.log(verification_check.status);
-  //     readlineE.close();
-  //   });
-// }

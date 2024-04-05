@@ -5,11 +5,11 @@ import React from "react";
 import { id } from "date-fns/locale";
 import { FaChevronRight } from "react-icons/fa";
 
-const CardRoom = ({ rooms, hotel, kamar, tamu, CIandCO }) => {
+const CardRoom = ({ rooms, hotel, kamar, tamu, CIandCO, status }) => {
   const router = useRouter();
-  const night = differenceInDays(CIandCO[1], CIandCO[0])
-  const day1 = format(CIandCO[0], "EEE, d MMM yyyy", {locale: id});
-  const day2 = format(CIandCO[1], "EEE, d MMM yyyy", {locale: id});
+  const night = differenceInDays(CIandCO[1], CIandCO[0]);
+  const day1 = format(CIandCO[0], "EEE, d MMM yyyy", { locale: id });
+  const day2 = format(CIandCO[1], "EEE, d MMM yyyy", { locale: id });
   return (
     <div className="flex flex-col p-4 bg-white rounded-lg mb-3">
       <div className="flex w-full justify-between items-center">
@@ -46,11 +46,15 @@ const CardRoom = ({ rooms, hotel, kamar, tamu, CIandCO }) => {
           </p>
         </div>
         <button
-          onClick={() =>
-            router.push(
-              `/hotels/checkout?hotel_id=${hotel.id}&room_id=${rooms.id}&kamar=${kamar}&tamu=${tamu}&check_in=${day1}&check_out=${day2}&night=${night}`
-            )
-          }
+          onClick={() => {
+            if (status === "authenticated") {
+              router.push(
+                `/hotels/checkout?hotel_id=${hotel.id}&room_id=${rooms.id}&kamar=${kamar}&tamu=${tamu}&check_in=${day1}&check_out=${day2}&night=${night}`
+              );
+            } else {
+              router.push('/auth/login')
+            }
+          }}
           className="px-5 py-0.5 bg-primary rounded-md text-white font-semibold"
         >
           Pesan

@@ -52,7 +52,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen md:px-72 flex flex-col items-center justify-center w-screen">
       <h1 className={`${satisfy.className} text-3xl text-primary`}>
         Nustaravel
       </h1>

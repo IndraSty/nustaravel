@@ -41,7 +41,7 @@ const DaftarPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen flex md:px-72 flex-col items-center justify-center">
       <h1 className={`${satisfy.className} text-3xl text-primary`}>
         Nustaravel
       </h1>

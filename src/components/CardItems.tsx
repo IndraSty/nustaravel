@@ -5,12 +5,14 @@ import { FaStar } from "react-icons/fa";
 function CardItems({ hotels }) {
   const router = useRouter()
   return (
-    <button onClick={() => router.push(`/hotels/${hotels.id}`)} className="max-h-[280px] max-w-1/2 flex flex-col rounded-lg items justify-between shadow-lg bg-white">
+    <button onClick={() => router.push(`/hotels/${hotels.id}`)} 
+    className="max-h-[284px] max-w-60 flex flex-col rounded-lg 
+    items justify-between shadow-lg bg-white">
       <div className="w-full h-full">
         {hotels.hotelimages && hotels.hotelimages.length > 0 && (
           <img
             src={hotels.hotelimages[0].image_path}
-            className="rounded-t-lg object-cover h-[60%]"
+            className="rounded-t-lg object-cover w-full max-h-[60%]"
           />
         )}
 
@@ -30,7 +32,7 @@ function CardItems({ hotels }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col px-2 py-4 gap-1">
+      <div className="flex flex-col px-2 mb-3 gap-1">
         <p className="text-[10px] line-through text-start">Rp.2.440.000</p>
         <span className="text-sm font-medium text-red-500">
           Rp.{new Intl.NumberFormat("id-ID").format(hotels.price)}

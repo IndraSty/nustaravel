@@ -20,12 +20,12 @@ const satisfy = Satisfy({
 
 const Footer = () => {
   return (
-    <div className="flex flex-col py-8 px-5">
+    <div className="flex flex-col py-8 px-5 md:px-20">
         <h2 className={`${satisfy.className} text-2xl md:text-4xl pb-5`}>
           Nusavel.
         </h2>
 
-        <div className="flex justify-between pr-4 pb-3">
+        <div className="flex justify-between pr-4 md:pr-10 pb-3">
           <div className="flex items-center gap-2">
             <FaWhatsapp className="text-xl text-miniText" />
             <div className="flex flex-col leading-5">
@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex justify-between pr-4 pb-8">
+        <div className="flex justify-between pr-4 md:pr-10 pb-8">
           <div className="flex items-center gap-2">
             <FaEnvelope className="text-xl text-miniText" />
             <div className="flex flex-col leading-5">
@@ -60,7 +60,7 @@ const Footer = () => {
           </div>
         </div>
         <hr />
-        <div className="flex py-5 justify-between pr-6">
+        <div className="flex py-5 justify-between pr-6 md:pr-0">
           <div className="flex flex-col">
             <h2 className="font-semibold text-base pb-3">Destinasi</h2>
             {listKota.map((kota) => (

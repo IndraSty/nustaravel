@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import NextTopLoader from "nextjs-toploader";
 
 const disableNavbar = ["/"];
 const disableFooter = ["/auth/login", "/auth/daftar"];
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative">
+        <NextTopLoader color="#00EAFF" />
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
             {disableNavbar.includes(pathname) && <Navbar />}

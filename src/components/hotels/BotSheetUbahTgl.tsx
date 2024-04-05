@@ -59,7 +59,7 @@ function BotSheetUbahTgl({
             transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
             className="fixed bottom-0 right-0 left-0 z-10 w-full rounded-t-2xl border-2 border-b-0 border-gray-50 bg-white shadow-[0px_-8px_20px_-6px_rgba(0,0,0,0.3)]"
           >
-            <div ref={ref} className="h-110 p-5 gap-3 flex flex-col">
+            <div ref={ref} className="h-110 p-5 gap-3 md:px-20 flex flex-col">
               <div className="mb-2 flex justify-end">
                 <FaTimes className="w-6 cursor-pointer" onClick={handleClose} />
               </div>

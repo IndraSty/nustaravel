@@ -3,7 +3,7 @@ import Link from "next/link";
 const CityCard = ({ kota, isGrab }) => {
   return (
     !isGrab ? (
-      <Link href={kota.url} className="flex flex-col min-w-[38%] h-[220px]">
+      <Link href={kota.url} className="flex flex-col min-w-[38%] md:min-w-44 md:h-[250px] h-[220px]">
         <img
           src={kota.image}
           alt=""

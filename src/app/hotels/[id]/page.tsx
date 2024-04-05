@@ -10,6 +10,7 @@ import { useDraggable } from "@/lib/utils/useDraggable";
 import { useOutsideAlerter } from "@/lib/utils/useOutsideAlerter";
 import axios from "axios";
 import { addDays } from "date-fns";
+import { useSession } from "next-auth/react";
 
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,7 +26,6 @@ import {
 } from "react-icons/fa";
 
 const DetailHotel = () => {
-
   const [isClicked, setIsClicked] = useState(false);
   const { containerRef, handleDragStart } = useDraggable();
   const [isHidden, setIsHidden] = useState(false);
@@ -39,6 +39,7 @@ const DetailHotel = () => {
   const checkOut = addDays(new Date(), 1);
   const [CIandCO, setCIandCO] = useState([checkIn, checkOut]);
   useOutsideAlerter(bottomSheetRef, setIsClicked);
+  const { data: session, status }: { data: any; status: string } = useSession();
 
   const router = useRouter();
 
@@ -141,11 +142,11 @@ const DetailHotel = () => {
           <div id="topNav">
             <div
               onClick={() => router.back()}
-              className="absolute cursor-pointer p-3 rounded-full text-white bg-black bg-opacity-30 top-4 left-4"
+              className="absolute cursor-pointer ml-20 p-3 rounded-full text-white bg-black bg-opacity-30 top-4 left-4"
             >
               <FaChevronLeft />
             </div>
-            <div className="absolute p-3 rounded-full text-white bg-black bg-opacity-30 top-4 right-4">
+            <div className="absolute p-3 rounded-full mr-20 text-white bg-black bg-opacity-30 top-4 right-4">
               <FaShareAlt />
             </div>
           </div>
@@ -156,17 +157,17 @@ const DetailHotel = () => {
             <div className="w-full">
               <img
                 src={hotel.hotelimages[0].image_path}
-                className="object-cover h-[200px] w-full"
+                className="object-cover h-[200px] md:h-[400px] w-full"
               />
             </div>
-            <div className="flex gap-1 h-[100px] w-full">
+            <div className="flex gap-1 h-[100px] md:h-[200px] w-full">
               <img src={hotel.hotelimages[1].image_path} className="w-1/3" />
               <img src={hotel.hotelimages[2].image_path} className="w-1/3" />
               <img src={hotel.hotelimages[3].image_path} className="w-1/3" />
             </div>
           </div>
         )}
-        <div className="flex flex-col p-3 mb-3 gap-3">
+        <div className="flex flex-col p-3 md:px-20 mb-3 gap-3">
           <h1 className="text-xl font-semibold">{hotel.hotel_name}</h1>
           <div className="flex gap-3 items-center">
             <p className="text-xs text-miniText">
@@ -196,7 +197,7 @@ const DetailHotel = () => {
         </div>
         <div className="w-full h-2 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Serunya Nginep Di Sini</h2>
 
           <div className="flex py-3 items-center gap-4">
@@ -234,7 +235,7 @@ const DetailHotel = () => {
 
         <div className="w-full h-2 mt-3 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Review</h2>
           <div
             ref={containerRef}
@@ -249,7 +250,7 @@ const DetailHotel = () => {
 
         <div className="w-full h-2 mt-3 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Fasilitas Hotel</h2>
           <div className="grid grid-cols-2 px-3 py-2 gap-3">
             {facilityHotel.map((item, index) => (
@@ -265,14 +266,14 @@ const DetailHotel = () => {
 
         <div className="w-full h-2 mt-3 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Lokasi</h2>
           <p className="text-sm text-miniText">{hotel.hotel_address}</p>
         </div>
 
         <div className="w-full h-2 mt-3 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Kebijakan Akomodasi</h2>
           <div className="flex items-center gap-2">
             <FaClock className="text-miniText text-xl" />
@@ -292,7 +293,7 @@ const DetailHotel = () => {
 
         <div className="w-full h-2 mt-3 bg-blue-50"></div>
 
-        <div className="flex flex-col px-3 py-5">
+        <div className="flex flex-col px-3 md:px-20 py-5">
           <h2 className="text-lg font-semibold mb-3">Tentang</h2>
           <p
             className={`text-miniText ${
@@ -322,7 +323,7 @@ const DetailHotel = () => {
 
         <section id="rooms">
           <div>
-            <div className="flex flex-col px-3 py-5">
+            <div className="flex flex-col px-3 md:px-20 py-5">
               <h2 className="text-lg font-semibold mb-3">
                 Tipe Kamar dan Harga
               </h2>
@@ -331,11 +332,11 @@ const DetailHotel = () => {
               {hotel.hotelimages && hotel.hotelimages.length > 0 && (
                 <img
                   src={hotel.hotelimages[2].image_path}
-                  className="w-full h-[180px]"
+                  className="w-full h-[180px] md:h-[400px] object-cover"
                 />
               )}
               {categories.map((item, index) => (
-                <div key={index} className="flex flex-col px-3 py-5">
+                <div key={index} className="flex flex-col px-3 md:px-20 py-5">
                   <h3 className="text-lg font-semibold mb-3">{item}</h3>
                   {rooms.map(
                     (room) =>
@@ -347,6 +348,7 @@ const DetailHotel = () => {
                           kamar={kamar}
                           tamu={tamu}
                           CIandCO={CIandCO}
+                          status={status}
                         />
                       )
                   )}
@@ -355,8 +357,9 @@ const DetailHotel = () => {
             </div>
           </div>
         </section>
-
-        <Faq />
+        <div className="md:px-20">
+          <Faq />
+        </div>
       </div>
     </section>
   );

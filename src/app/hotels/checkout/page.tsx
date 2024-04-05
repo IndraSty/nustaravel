@@ -67,7 +67,7 @@ const CheckoutPage = () => {
     const response = await axios.post("/api/tokenizer", data);
 
     window.snap.pay(response.data.token, {
-      onPending: async function (result) {
+      onPending: async function () {
         const data = {
           booking_id: bookingId,
           amount: price,
@@ -77,6 +77,22 @@ const CheckoutPage = () => {
 
         await axios.post(`/api/booking/payment?booking_id=${bookingId}`, data);
       },
+      onSuccess: async function (result) {
+        if (result.status_code == 200) {
+          const data = {
+            booking_id: bookingId,
+            amount: price,
+            method: "",
+            status: "Paid",
+          };
+
+          Promise.all([
+            axios.post(`/api/booking/history?booking_id=${bookingId}&email=${email}`),
+            axios.post(`/api/booking/payment?booking_id=${bookingId}`, data)
+          ])
+        }
+      },
+
       onClose: async function () {
         console.log("customer closed the popup without finishing the payment");
         const data = {

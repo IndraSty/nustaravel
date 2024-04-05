@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 const authPage = ["/auth/login", "/auth/daftar", "/auth/phone"];
+const forbiddenPage = ["/booking"];
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
@@ -11,25 +12,30 @@ export async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+  console.log(pathname)
+
+  if (!token && forbiddenPage.includes(pathname)) {
+    const url = new URL("/auth/login", req.url);
+    return NextResponse.redirect(url);
+  }
   if (!token && !authPage.includes(pathname)) {
     const url = new URL("/");
     return NextResponse.redirect(url);
   }
 
   if (token) {
-  
-    if (token.phone == '' ) {
+    if (token.phone == "") {
       return NextResponse.redirect(new URL("/auth/phone", req.url));
     }
-    if (token.phone !== '' && authPage.includes(pathname)) {
+    if (token.phone !== "" && authPage.includes(pathname)) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
 }
 
 export const config = {
-  matcher: ["/auth/login", "/auth/daftar"]
-}
+  matcher: ["/auth/login", "/auth/daftar", "/booking"],
+};
 
 // export default withAuth(mainMiddleware, ["/auth/login", "/auth/daftar"]);
 

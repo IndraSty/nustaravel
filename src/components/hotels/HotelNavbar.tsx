@@ -6,7 +6,7 @@ import { format } from "date-fns";
 const HotelNavbar = ({ hotel, onBackClick, CIandCO, onUbahClick, tamu, kamar }: any) => {
 
   return (
-    <div className="fixed flex w-full shadow-bottom top-0 z-[40] justify-between px-5 py-4 items-center bg-white">
+    <div className="fixed flex w-full shadow-bottom md:px-20 top-0 z-[40] justify-between px-5 py-4 items-center bg-white">
       <div className="flex gap-5">
         <button onClick={onBackClick}>
           <FaChevronLeft className="text-sm" />

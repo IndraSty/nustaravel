@@ -5,8 +5,9 @@ type BotNavbarProps = {price: number}
 
 const BotNavbar = ({hotel, onClick, isHidden}) => {
   return (
-    <div className={`${isHidden ? "hidden" : "fixed"} bottom-0 py-4 z-[45] rounded-t-lg w-full shadow-top bg-white overflow-hidden`}>
-      <div className="flex justify-between items-center px-5">
+    <div className={`${isHidden ? "hidden" : "fixed"} bottom-0 md:px-20 py-4 z-[45]
+     rounded-t-lg w-full shadow-top bg-white overflow-hidden`}>
+      <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <span className="text-sm font-semibold">Mulai Dari</span>
           <h1 className="text-red-500 font-semibold text-lg">

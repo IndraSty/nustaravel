@@ -1,10 +1,11 @@
 "use client";
 import { Satisfy } from "next/font/google";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaBars, FaTimes, FaChevronRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { navbarClicked } from "@/features/context/navbarClicked";
 
 const satisfy = Satisfy({
   subsets: ["latin"],
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isImgClicked, setIsImgClicked] = useState<boolean>(false);
 
+  const { handleHotelsClick, handleAboutUsClick } = navbarClicked();
   const { data: session, status }: { data: any; status: string } = useSession();
   let [name, setName] = useState<any>("");
   let [image, setImage] = useState<any>("");
@@ -78,42 +80,39 @@ const Navbar = () => {
         } font-semibold hidden`}
       >
         <Link
-          href={"#"}
+          href={"/"}
           className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
         >
           Home
         </Link>
-        <Link
-          href={"#"}
+        <button
+          onClick={handleHotelsClick}
           className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
         >
           Hotels
-        </Link>
-        <Link
-          href={"#"}
-          className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
-        >
-          Bookings
-        </Link>
-        <Link
-          href={"#"}
+        </button>
+        <button
+          onClick={handleAboutUsClick}
           className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
         >
           About Us
-        </Link>
-        <Link
-          href={"#"}
-          className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
-        >
-          Contact Us
-        </Link>
+        </button>
         {status === "authenticated" ? (
           <div className="flex flex-col">
             <div className="flex gap-2 items-center">
-              <span className="font-semibold text-white">{name}</span>
+              <span
+                className={`font-bold ${
+                  isScrolled ? "text-black" : "text-white"
+                }`}
+              >
+                {name}
+              </span>
               <button
                 onClick={() => setIsImgClicked(!isImgClicked)}
-                className="cursor-pointer border-2 border-white rounded-full hover:bg-white active:bg-white"
+                className={`cursor-pointer border-2 ${
+                  isScrolled ? "border-blue-300" : "border-white"
+                } rounded-full 
+                hover:bg-white active:bg-white`}
               >
                 {image == "" || image == undefined ? (
                   <img
@@ -156,8 +155,7 @@ const Navbar = () => {
             </Link>{" "}
             |
             <Link
-              href={"#"}
-              onClick={() => signIn()}
+              href={"/auth/daftar"}
               className="transition-all ease-in-out text-white duration-200 bg-primary px-5 py-1 font-medium rounded-md hover:bg-primary-hover "
             >
               Daftar
@@ -217,17 +215,17 @@ const Navbar = () => {
                     <FaChevronRight />
                   </div>
                   <div className="flex justify-between">
-                    <Link
-                      href={"#"}
-                      className="transition-all ease-in-out duration-200 hover:font-semibold"
+                    <button
+                      onClick={handleHotelsClick}
+                      className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
                     >
                       Hotels
-                    </Link>
+                    </button>
                     <FaChevronRight />
                   </div>
                   <div className="flex justify-between">
                     <Link
-                      href={"#"}
+                      href={"/booking"}
                       className="transition-all ease-in-out duration-200 hover:font-semibold"
                     >
                       Bookings
@@ -235,21 +233,12 @@ const Navbar = () => {
                     <FaChevronRight />
                   </div>
                   <div className="flex justify-between">
-                    <Link
-                      href={"#"}
-                      className="transition-all ease-in-out duration-200 hover:font-semibold"
+                    <button
+                      onClick={handleAboutUsClick}
+                      className="transition-all ease-in-out duration-200 hover:underline underline-offset-8"
                     >
                       About Us
-                    </Link>
-                    <FaChevronRight />
-                  </div>
-                  <div className="flex justify-between">
-                    <Link
-                      href={"#"}
-                      className="transition-all ease-in-out duration-200 hover:font-semibold"
-                    >
-                      Contact Us
-                    </Link>
+                    </button>
                     <FaChevronRight />
                   </div>
                 </div>

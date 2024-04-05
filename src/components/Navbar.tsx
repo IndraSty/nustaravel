@@ -72,7 +72,7 @@ const Navbar = () => {
           isScrolled ? "text-black" : "text-white"
         }`}
       >
-        Nusavel.
+        Nustaravel.
       </h2>
       <div
         className={`md:flex gap-8 text-sm items-center ${

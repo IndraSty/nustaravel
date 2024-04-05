@@ -41,6 +41,7 @@ npm run dev
 ```
 
 ## dasboard
-![Dashboard Page](/images/dasboard.png)
+![Dashboard Page](/images/dashboard.png)
 
 ## Hotel Page
+![Hotel Page](/images/hotel-page.png)

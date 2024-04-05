@@ -6,7 +6,7 @@ nustaravel is a fullstack web-based hotel room booking application. The hotel da
 - NextJs
 - MySQL
 - Midtrans
-- Docker
+
 ## Library
 - Prisma(ORM)
 - JWT

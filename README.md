@@ -11,6 +11,7 @@ nustaravel is a fullstack web-based hotel room booking application. The hotel da
 - Prisma(ORM)
 - JWT
 - Twilio(SMS notification)
+- Next Auth
 ## Installation
 To run this Application in your local machine, follow these steps:
 Clone the repository to your machine and install the needed dependencies. We use `npm` to manage our packages, so please make sure it is installed in your local machine.
